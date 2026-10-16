@@ -1,0 +1,11 @@
+{
+  "timestamp": "2026-10-15T05:15:12.634769+00:00",
+  "discovered_total": 6,
+  "collected_total": 0,
+  "skipped_total": 6,
+  "collection_rate": 0.0,
+  "skip_reasons": {
+    "already_checkpointed": 6
+  },
+  "records_by_source": {}
+}

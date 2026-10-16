@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.venv/
+env/
+venv/
+*.egg-info/
+dist/
+build/
+
+# IDE
+.vscode/
+.idea/
+
+# Pipeline runtime & cache data
+data/raw/repositories/*
+!data/raw/repositories/.gitkeep
+data/raw/documentation/*
+!data/raw/documentation/.gitkeep
+data/raw/issues/*
+!data/raw/issues/.gitkeep
+data/raw/patches/*
+!data/raw/patches/.gitkeep
+data/quarantine/*
+!data/quarantine/.gitkeep
+logs/*.log
+temp/
+tmp/
+.cache/

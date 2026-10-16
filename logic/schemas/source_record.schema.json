@@ -1,0 +1,55 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "SourceRecord",
+  "type": "object",
+  "required": [
+    "source_id",
+    "source_type",
+    "retrieval_timestamp",
+    "license",
+    "content_hash"
+  ],
+  "properties": {
+    "source_id": {
+      "type": "string"
+    },
+    "source_type": {
+      "type": "string",
+      "enum": ["local", "github", "docs", "issues", "patches"]
+    },
+    "source_url": {
+      "type": "string"
+    },
+    "repository": {
+      "type": ["string", "null"]
+    },
+    "commit_hash": {
+      "type": ["string", "null"]
+    },
+    "retrieval_timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "license": {
+      "type": "string"
+    },
+    "license_source": {
+      "type": "string"
+    },
+    "godot_version": {
+      "type": "string"
+    },
+    "content_hash": {
+      "type": "string"
+    },
+    "file_path": {
+      "type": "string"
+    },
+    "raw_content": {
+      "type": "string"
+    },
+    "metadata": {
+      "type": "object"
+    }
+  }
+}

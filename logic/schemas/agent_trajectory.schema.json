@@ -1,0 +1,54 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AgentTrajectoryRecord",
+  "type": "object",
+  "required": [
+    "trajectory_id",
+    "user_request",
+    "steps",
+    "is_synthetic",
+    "final_verification_result"
+  ],
+  "properties": {
+    "trajectory_id": { "type": "string" },
+    "user_request": { "type": "string" },
+    "environment": {
+      "type": "object",
+      "properties": {
+        "godot_version": { "type": "string" },
+        "os": { "type": "string" },
+        "project_name": { "type": "string" }
+      }
+    },
+    "is_synthetic": { "type": "boolean" },
+    "steps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "step_index",
+          "decision",
+          "tool_call",
+          "tool_input",
+          "tool_output",
+          "observed_result"
+        ],
+        "properties": {
+          "step_index": { "type": "integer" },
+          "decision": { "type": "string" },
+          "tool_call": { "type": "string" },
+          "tool_input": { "type": ["object", "string", "array"] },
+          "tool_output": { "type": ["string", "object", "null"] },
+          "observed_result": { "type": "string" },
+          "next_decision": { "type": ["string", "null"] },
+          "repair_attempt": { "type": ["object", "null"] }
+        }
+      }
+    },
+    "final_verification_result": {
+      "type": "string",
+      "enum": ["passed", "failed", "blocked", "inconclusive"]
+    },
+    "metadata": { "type": "object" }
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "version": "1.0",
+  "generated_at": "2026-09-28T09:56:40Z",
+  "description": "Central index for Godot AI Dataset pipeline stages.",
+  "active_stages": [
+    1,
+    2
+  ],
+  "stages": {
+    "stage_01_collection": {
+      "stage": 1,
+      "name": "Data Collection",
+      "status": "complete",
+      "immutable": true,
+      "manifest_path": "stage_01_collection/manifest.json",
+      "total_records": 500993,
+      "sources": {
+        "legacy_github": {
+          "path": "github_dataset/",
+          "type": "local_source",
+          "records": 493505,
+          "immutable": true
+        },
+        "multi_source_raw": {
+          "path": "dataset/raw/",
+          "type": "raw_crawls",
+          "records": 7488,
+          "immutable": true
+        }
+      }
+    },
+    "stage_02_repaired": {
+      "stage": 2,
+      "name": "Data Cleaning & Repair",
+      "status": "complete",
+      "read_only": true,
+      "manifest_path": "stage_02_repaired/manifest.json",
+      "total_records": 81764,
+      "datasets": {
+        "code": {
+          "path": "stage_02_repaired/code/code.jsonl",
+          "records": 80981,
+          "size_bytes": 614885110,
+          "sha256": "a58aa74043b55692c5a5ff0036635ae67f17e57d3b34c5ed26d8894f247af079",
+          "read_only": true,
+          "description": "Clean, deduplicated Godot source files (.gd, .tscn, .tres, .gdshader, .cs, .cfg)"
+        },
+        "projects": {
+          "path": "stage_02_repaired/projects/projects.jsonl",
+          "records": 689,
+          "size_bytes": 14617276,
+          "sha256": "f45a06efa10b36fcb1ef1e2075db336cd0c2cfcc592f43bcf22977bf60d8601c",
+          "read_only": true,
+          "description": "Godot project dependency graphs and directory file structures"
+        },
+        "documentation": {
+          "path": "stage_02_repaired/knowledge/documentation.jsonl",
+          "records": 22,
+          "size_bytes": 759614,
+          "sha256": "a9b37bfc053d71616b5946eefd5c6b094443f32212ebaf3d8dad839e7f0cf83e",
+          "read_only": true,
+          "description": "Clean official Godot documentation tutorials and class references"
+        },
+        "qa": {
+          "path": "stage_02_repaired/knowledge/qa.jsonl",
+          "records": 32,
+          "size_bytes": 143817,
+          "sha256": "636ff4cda8158fa84a4d53c580dd8319015466cd553a4acd6abbef00e619a6f5",
+          "read_only": true,
+          "description": "Curated Q&A pairs from StackOverflow and Godot Forums"
+        },
+        "debugging": {
+          "path": "stage_02_repaired/debugging/debugging.jsonl",
+          "records": 8,
+          "size_bytes": 57610,
+          "sha256": "89388da4804feeb0f2f958f437d6c4012b2dde2d91bf2858db6fde49eac22a07",
+          "read_only": true,
+          "description": "Real-world bug reports and issue resolutions with problem-solution pairs"
+        },
+        "agent_tasks": {
+          "path": "stage_02_repaired/agent_tasks/agent_tasks.jsonl",
+          "records": 32,
+          "size_bytes": 438207,
+          "sha256": "d6887298e4ba7118519a6837fb15a038ce7ea657746548f75108f2d15f0e0a59",
+          "read_only": true,
+          "description": "GitHub Pull Requests with instructions, context, and valid verified diff patches"
+        }
+      }
+    }
+  }
+}

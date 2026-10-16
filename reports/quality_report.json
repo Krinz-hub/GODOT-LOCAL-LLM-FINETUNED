@@ -1,0 +1,79 @@
+{
+  "raw_records": 500993,
+  "raw_multi_source": 7488,
+  "raw_legacy_github": 493505,
+  "unique_records": 81764,
+  "final_records": 81764,
+  "final_breakdown": {
+    "projects": 689,
+    "qa": 32,
+    "documentation": 22,
+    "code": 80981,
+    "agent_tasks": 32,
+    "debugging": 8
+  },
+  "duplicates": 9947,
+  "quarantined_total": 20005,
+  "quarantined_breakdown": {
+    "invalid": 6,
+    "unknown_license": 3942,
+    "duplicate": 9947,
+    "unknown_version": 6110
+  },
+  "unique_projects": 1396,
+  "unique_repositories": 720,
+  "languages": {
+    "gdscript": 34616,
+    "godot_scene": 16437,
+    "csharp": 15086,
+    "godot_resource": 11805,
+    "unknown": 1626,
+    "shader": 1411
+  },
+  "godot_versions": {
+    "Godot 4.7": 20172,
+    "Godot 3.x": 15526,
+    "Godot 4.6": 9435,
+    "Godot 4.3": 7850,
+    "unknown": 6125,
+    "Godot 4.x": 5933,
+    "Godot 4.4": 4579,
+    "Godot 4.5": 4042,
+    "Godot 4.2": 3746,
+    "Godot 4.1": 1700
+  },
+  "licenses": {
+    "MIT": 64190,
+    "GPL-3.0": 4397,
+    "Unknown": 3997,
+    "Apache-2.0": 3608,
+    "MPL-2.0": 2207,
+    "LGPL-3.0": 1232,
+    "CC0-1.0": 792,
+    "GPL-2.0": 470,
+    "BSD-2-Clause": 410,
+    "Unlicense": 244
+  },
+  "task_types": {
+    "code_completion": 80992,
+    "generation": 80992,
+    "code_editing": 16631,
+    "testing": 14355,
+    "debugging": 14067,
+    "explanation": 2398,
+    "refactoring": 2188,
+    "optimization": 1879,
+    "migration": 1811,
+    "architecture": 1773,
+    "game_design": 1773,
+    "planning": 1773,
+    "agent_task": 32,
+    "documentation": 22,
+    "qa": 21
+  },
+  "agent_tasks": 32,
+  "valid_patches": 32,
+  "empty_patches_quarantined": 0,
+  "unknown_license": 3997,
+  "unknown_version": 6125
+}

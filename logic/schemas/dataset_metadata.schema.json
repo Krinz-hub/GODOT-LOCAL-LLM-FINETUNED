@@ -1,0 +1,29 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "DatasetMetadata",
+  "type": "object",
+  "required": [
+    "dataset_name",
+    "version",
+    "generation_timestamp",
+    "records_count",
+    "splits"
+  ],
+  "properties": {
+    "dataset_name": { "type": "string" },
+    "version": { "type": "string" },
+    "generation_timestamp": { "type": "string", "format": "date-time" },
+    "records_count": { "type": "integer" },
+    "splits": {
+      "type": "object",
+      "required": ["train", "val", "test"],
+      "properties": {
+        "train": { "type": "integer" },
+        "val": { "type": "integer" },
+        "test": { "type": "integer" }
+      }
+    },
+    "checksums": { "type": "object" },
+    "provenance": { "type": "object" }
+  }
+}

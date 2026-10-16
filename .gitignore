@@ -1,0 +1,122 @@
+# ==================================================
+# Python environments and generated files
+# ==================================================
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+*.pyd
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# ==================================================
+# IDEs and operating-system files
+# ==================================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ==================================================
+# Secrets and local environment configuration
+# ==================================================
+.env
+.env.*
+!.env.example
+!.env.template
+*.pem
+*.key
+secrets/
+credentials.json
+service-account*.json
+
+# ==================================================
+# Large source datasets — preserve locally, not in Git
+# ==================================================
+/raw/
+/existing_raw/
+/structured/
+/final/
+/cleaned/
+/deduplicated/
+/quarantine/
+
+# Large legacy training data
+/final_godot_sharegpt.jsonl
+/sharegpt.jsonl
+
+# Generated training data in the legacy workspace
+/godot_training_workspace/data/*.jsonl
+/godot_training_workspace/data/*.npy
+/godot_training_workspace/data/*.npz
+
+# ==================================================
+# Model weights, adapters, and checkpoints
+# ==================================================
+/checkpoints/
+/godot-agent-lora/
+/godot_training_workspace/checkpoints/
+*.safetensors
+*.gguf
+*.ckpt
+*.pt
+*.pth
+*.onnx
+*.bin
+
+# Preserve small model configuration/tokenizer files if needed.
+# Review model directories before committing any large artifacts.
+
+# ==================================================
+# Generated pipeline data
+# Keep source code, schemas, configs, and test fixtures tracked.
+# ==================================================
+/logic/data/raw/
+/logic/data/ingested/
+/logic/data/cleaned/
+/logic/data/projects/
+/logic/data/debugging/
+/logic/data/trajectories/
+/logic/data/training/
+/logic/data/quarantine/
+/logic/data/normalized/
+/logic/data/manifests/code_index.json
+
+# ==================================================
+# Runtime logs and temporary files
+# ==================================================
+*.log
+logs/
+tmp/
+temp/
+.cache/
+*.tmp
+*.bak
+*.pid
+
+# ==================================================
+# Generated exports and archives
+# ==================================================
+*.zip
+*.tar
+*.tar.gz
+*.7z
+
+# ==================================================
+# Keep test fixtures and useful project documentation
+# ==================================================
+!/logic/tests/fixtures/
+!/logic/tests/fixtures/**
+
+# Keep logic/reports/ tracked so audit reports can be reviewed.
+# Add individual report paths here only if they are temporary.

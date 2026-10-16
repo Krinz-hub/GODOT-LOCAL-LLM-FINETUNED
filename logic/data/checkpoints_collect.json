@@ -1,0 +1,11 @@
+{
+  "completed_keys": [
+    "local:sample_project:game_manager.gd",
+    "local:sample_project:main.tscn",
+    "local:sample_project:player.gd",
+    "local:sample_project:player.tscn",
+    "local:sample_project:project.godot",
+    "local:sample_project:theme.tres"
+  ],
+  "metadata": {}
+}

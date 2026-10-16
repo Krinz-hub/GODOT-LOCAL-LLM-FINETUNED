@@ -1,0 +1,108 @@
+```mermaid
+flowchart TD
+    subgraph S1["Stage 1: Source Collection & Raw Storage"]
+        RawCrawls["Raw Scraped Crawls\n(raw/ 8 sources: 500k records)"]
+        LegacyCrawler["Legacy Cloner/Crawler\n(Preserved in checkpoints/)"]
+        LocalFixture["Local Fixture Source\n(logic/tests/fixtures/sample_project)"]
+        GitHubAPI["GitHub API Connector\n(logic/.../github_api.py)\n[WARN: fetch() stubbed, clone uncalled]"]
+        GitCloner["Git Repository Cloner\n(logic/.../git_repository.py)\n[DISCONNECTED: Not called by CLI]"]
+    end
+
+    subgraph S2["Stage 2: Structured Datasets (Read-Only Baseline)"]
+        StructCode["structured/code.jsonl\n(80,981 records, 587MB)\n[NOTE: 0 project.godot files;\n6,508 orphaned non-Godot files]"]
+        StructProj["structured/projects.jsonl\n(689 project graphs, 14MB)\n[529 Godot 4.x, 148 Godot 3.x, 7 Godot 2.x]"]
+        StructDebug["structured/debugging.jsonl\n(8 records total: 2 docs, 1 Godot 3,\nC++ crashes, 0 verified GDScript repairs)"]
+        StructTasks["structured/agent_tasks.jsonl\n(32 merged GitHub PRs;\nC++ engine changes, docs, 0 agent traces)"]
+        FinalDup["final/*.jsonl\n[CONFIRMED DUPLICATE: 600MB\n100% byte-for-byte identical to structured/]"]
+    end
+
+    subgraph S3["Stage 3: Logic Ingestion & Extraction (logic/src/logic_pipeline/)"]
+        CodeIdx["Streaming CodeIndex\n(logic/data/manifests/code_index.json)\n[Indexed 720 repos via byte offsets]"]
+        StructAdapter["StructuredIngestionAdapter\n(logic/.../structured_ingest.py)\n[BUG: sample_size=None crashes with TypeError]"]
+        StructMappers["Structured Schema Mappers\n(logic/.../structured_mappers.py)"]
+        
+        subgraph IngestedData["logic/data/ingested/"]
+            DsAIngest["dataset_a_projects.jsonl\n(Production Logic Plans)\n[BUG: Godot 2.x bypasses filter]"]
+            DsBIngest["dataset_b_debugging.jsonl\n(8 Debugging records)\n[WARN: Godot 3.2 issue unquarantined]"]
+            DsCIngest["dataset_c_trajectories.jsonl\n(32 Reconstructed PR traces)\n[Excluded from default export]"]
+        end
+        QuarantineA["logic/data/quarantine/\ndataset_a_quarantined.jsonl\n(148 Godot 3.x projects rejected)"]
+    end
+
+    subgraph S4["Stage 4: Normalization, Cleaning & Deduplication"]
+        CleanMod["Scrubbing & Transpilation\n(logic/.../processing/clean.py)\n[WARN: auto_upgrade_annotations: false]"]
+        DedupMod["Exact & Near Deduplicator\n(logic/.../processing/deduplicate.py)\n[SHA-256 + Jaccard unigram/bigram]"]
+        CleanOut["logic/data/cleaned/\n- dataset_a_projects_dedup.jsonl\n- dataset_b_debugging_dedup.jsonl"]
+    end
+
+    subgraph S5["Stage 5: Multi-Tier Validation"]
+        SchemaVal["Schema Validation\n(logic/.../validation/schema.py)\n[Draft-7: production_logic, debugging, agent]"]
+        CanonicalVal["Canonical Logic Validator\n(logic/.../validation/canonical.py)\n[14-key plan, DAG task order, res://]"]
+        XRefVal["Cross-Reference Validator\n(logic/.../validation/cross_references.py)"]
+        HeadlessGodot["Headless Godot Runtime\n(logic/.../validation/run_godot.py)\n[DISABLED: godot4 binary not in PATH]"]
+        EvidenceModule["Evidence Grounding Module\n(logic/.../analysis/evidence.py)\n[DISCONNECTED: Not called in pipeline]"]
+    end
+
+    subgraph S6["Stage 6: Splitting & Training Export"]
+        Splitter["Project-Level Splitter (80/10/10)\n(logic/.../processing/split_dataset.py)\n[BUG: Starves val to 0 records when n < 10]"]
+        Exporter["ShareGPT / ChatML Exporter\n(logic/.../processing/export_training.py)"]
+        
+        subgraph ExportedTraining["logic/data/training/run_*/"]
+            TrainLogic["dataset_a_production_logic_train.jsonl\n(Avg 4,766 tokens, Max 8,878 tokens)"]
+            TrainArch["dataset_a_architecture_train.jsonl"]
+            TrainDebug["dataset_b_debugging_train.jsonl"]
+            ValDebug["dataset_b_debugging_val.jsonl\n[EMPTY: 0 bytes due to split bug]"]
+            FixtureFallback["train_sharegpt.jsonl\n[WARN: Stale copy of test fixture]"]
+        end
+    end
+
+    subgraph S7["Stage 7: Model Training Execution (Active DGX Spark Job)"]
+        ActiveSymlink["final_godot_sharegpt.jsonl\n(Symlink to workspace train.jsonl)"]
+        TrainDGX["train_dgx.py\n[ACTIVE PROCESS: PID 5456]\n(Qwen2.5-Coder-7B-Instruct, 4-bit QLoRA)"]
+        LoRAAdapters["godot-agent-lora/\n(checkpoint-1000, 1100, 1200)"]
+    end
+
+    %% Data flow connections
+    RawCrawls --> LegacyCrawler
+    LocalFixture --> LocalProjectsSource
+    StructProj --> StructAdapter
+    StructCode --> CodeIdx
+    StructDebug --> StructAdapter
+    StructTasks --> StructAdapter
+    CodeIdx --> StructAdapter
+    
+    StructAdapter --> StructMappers
+    StructMappers --> DsAIngest
+    StructMappers --> DsBIngest
+    StructMappers --> DsCIngest
+    StructMappers --> QuarantineA
+    
+    DsAIngest --> CleanMod
+    DsBIngest --> CleanMod
+    CleanMod --> DedupMod
+    DedupMod --> CleanOut
+    
+    CleanOut --> SchemaVal
+    CleanOut --> CanonicalVal
+    CleanOut --> XRefVal
+    
+    CanonicalVal --> Splitter
+    Splitter --> Exporter
+    Exporter --> TrainLogic
+    Exporter --> TrainArch
+    Exporter --> TrainDebug
+    Exporter --> ValDebug
+    
+    %% Legacy pipeline feeding active training
+    ActiveSymlink --> TrainDGX
+    TrainDGX --> LoRAAdapters
+    
+    %% Disconnections / Broken links styling
+    style FinalDup stroke:#f66,stroke-width:2px,stroke-dasharray: 5 5
+    style GitCloner stroke:#f66,stroke-width:2px,stroke-dasharray: 5 5
+    style EvidenceModule stroke:#f66,stroke-width:2px,stroke-dasharray: 5 5
+    style HeadlessGodot stroke:#ff9900,stroke-width:2px,stroke-dasharray: 5 5
+    style ValDebug stroke:#f66,stroke-width:2px
+    style FixtureFallback stroke:#ff9900,stroke-width:2px
+    style TrainDGX stroke:#00cc66,stroke-width:3px
+```

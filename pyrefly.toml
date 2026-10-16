@@ -1,0 +1,6 @@
+search-path = [
+    "./logic/src",
+    "/home/piet/.local/lib/python3.12/site-packages",
+    "./.venv/lib/python3.12/site-packages",
+]
+infer-with-first-use = false

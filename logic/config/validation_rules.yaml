@@ -1,0 +1,28 @@
+# Validation Rules Configuration
+
+validation:
+  schema:
+    enforce_strict: true
+    schemas_dir: "logic/schemas"
+
+  cross_references:
+    verify_scene_paths: true
+    verify_script_attachments: true
+    verify_resource_paths: true
+    verify_task_prerequisites: true
+    verify_acceptance_criteria: true
+    allow_unresolved_with_tag: true
+
+  technical:
+    godot_executable: "godot4"  # Or "godot"
+    allow_runtime_execution: false  # Default to false for sandbox security
+    headless_flags:
+      - "--headless"
+      - "--quit"
+    execution_timeout_seconds: 30
+    temp_workspace: "logic/data/temp_run"
+
+  deduplication:
+    exact_hash_algorithm: "sha256"
+    near_duplicate_threshold: 0.85
+    min_token_length: 20

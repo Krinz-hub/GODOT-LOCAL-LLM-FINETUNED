@@ -1,0 +1,26 @@
+{
+  "report_timestamp": "2026-10-15T07:24:17.570530+00:00",
+  "stages": {
+    "raw_records": 6,
+    "normalized_records": 6,
+    "cleaned_records": 6,
+    "quarantined_records": 0
+  },
+  "datasets": {
+    "projects": 1,
+    "production_logic": 1,
+    "debugging": 1,
+    "trajectories": 0
+  },
+  "splits": {
+    "train": 4,
+    "val": 0,
+    "test": 0
+  },
+  "license_distribution": {
+    "MIT": 6
+  },
+  "version_distribution": {
+    "Godot 4.x": 6
+  }
+}

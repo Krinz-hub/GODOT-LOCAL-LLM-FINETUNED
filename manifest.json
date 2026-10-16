@@ -1,0 +1,93 @@
+{
+  "generated_at": "2026-09-28T09:46:47Z",
+  "pipeline_version": "2.0.0",
+  "source_counts": {
+    "github_pull_requests": 71,
+    "github_issues": 22,
+    "godot_docs": 60,
+    "godot_demos": 182,
+    "forums": 41,
+    "github": 6802,
+    "stackoverflow": 70,
+    "asset_library": 240,
+    "legacy_github_dataset": 493505
+  },
+  "final_counts": {
+    "code": 80981,
+    "agent_tasks": 32,
+    "debugging": 8,
+    "documentation": 22,
+    "qa": 32,
+    "projects": 689
+  },
+  "duplicate_counts": {
+    "pipeline_duplicates": 9947,
+    "legacy_search_duplicates_collapsed": 154310,
+    "total_duplicates_filtered": 164257
+  },
+  "quarantine_counts": {
+    "duplicate": 9947,
+    "invalid": 6,
+    "missing_metadata": 0,
+    "empty_patch": 0,
+    "unknown_license": 3942,
+    "unknown_version": 6110,
+    "unresolved": 0
+  },
+  "license_distribution": {
+    "MIT": 63580,
+    "GPL-3.0": 4376,
+    "Unknown": 3942,
+    "Apache-2.0": 3592,
+    "CC0-1.0": 782,
+    "CC-BY-3.0": 94,
+    "Unlicense": 239,
+    "MPL-2.0": 2204,
+    "BSD-2-Clause": 408,
+    "BSD-3-Clause": 65,
+    "GPL-2.0": 468,
+    "LGPL-3.0": 1231
+  },
+  "godot_version_distribution": {
+    "Godot 4.3": 7793,
+    "Godot 4.7": 20082,
+    "Godot 4.6": 9365,
+    "Godot 4.5": 3997,
+    "Godot 4.1": 1671,
+    "Godot 4.4": 4527,
+    "Godot 3.x": 15372,
+    "Godot 4.x": 5771,
+    "Godot 4.0": 1201,
+    "unknown": 6110,
+    "Godot 2.x": 465,
+    "Godot 4.2": 3689,
+    "Godot 4.8": 938
+  },
+  "language_distribution": {
+    "godot_scene": 16437,
+    "gdscript": 34616,
+    "unknown": 1626,
+    "csharp": 15086,
+    "godot_resource": 11805,
+    "shader": 1411
+  },
+  "task_type_distribution": {
+    "code_completion": 80996,
+    "generation": 80996,
+    "optimization": 1879,
+    "code_editing": 16633,
+    "debugging": 14069,
+    "refactoring": 2188,
+    "migration": 1811,
+    "testing": 14356,
+    "explanation": 2400,
+    "architecture": 1773,
+    "game_design": 1773,
+    "planning": 1773,
+    "agent_task": 32,
+    "documentation": 22,
+    "qa": 22
+  },
+  "unique_projects": 689,
+  "unique_repositories": 720
+}

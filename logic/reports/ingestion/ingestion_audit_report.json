@@ -1,0 +1,77 @@
+{
+  "timestamp": "2026-10-16T06:47:56.741150+00:00",
+  "input_files": {
+    "projects": {
+      "path": "/home/piet/Documents/dataset/structured/projects.jsonl",
+      "exists": true,
+      "size_bytes": 14617276,
+      "sha256": "f45a06efa10b36fcb1ef1e2075db336cd0c2cfcc592f43bcf22977bf60d8601c"
+    },
+    "debugging": {
+      "path": "/home/piet/Documents/dataset/structured/debugging.jsonl",
+      "exists": true,
+      "size_bytes": 57610,
+      "sha256": "89388da4804feeb0f2f958f437d6c4012b2dde2d91bf2858db6fde49eac22a07"
+    },
+    "agent_tasks": {
+      "path": "/home/piet/Documents/dataset/structured/agent_tasks.jsonl",
+      "exists": true,
+      "size_bytes": 438207,
+      "sha256": "d6887298e4ba7118519a6837fb15a038ce7ea657746548f75108f2d15f0e0a59"
+    }
+  },
+  "datasets": [
+    {
+      "dataset_name": "Dataset A (Production Logic)",
+      "input_file": "/home/piet/Documents/dataset/structured/projects.jsonl",
+      "input_sha256": "f45a06efa10b36fcb1ef1e2075db336cd0c2cfcc592f43bcf22977bf60d8601c",
+      "records_examined": 5,
+      "records_mapped": 5,
+      "records_quarantined": 0,
+      "duplicate_records": 0,
+      "sufficient_evidence": 5,
+      "requires_human_review": 0,
+      "missing_fields_counts": {},
+      "quarantine_reasons": {},
+      "output_file": "/home/piet/Documents/dataset/logic/data/ingested/dataset_a_projects.jsonl",
+      "output_count": 5
+    },
+    {
+      "dataset_name": "Dataset B (Debugging and Repair)",
+      "input_file": "/home/piet/Documents/dataset/structured/debugging.jsonl",
+      "input_sha256": "89388da4804feeb0f2f958f437d6c4012b2dde2d91bf2858db6fde49eac22a07",
+      "records_examined": 5,
+      "records_mapped": 5,
+      "records_quarantined": 0,
+      "duplicate_records": 0,
+      "sufficient_evidence": 5,
+      "requires_human_review": 5,
+      "missing_fields_counts": {},
+      "quarantine_reasons": {},
+      "output_file": "/home/piet/Documents/dataset/logic/data/ingested/dataset_b_debugging.jsonl",
+      "output_count": 5
+    },
+    {
+      "dataset_name": "Dataset C (Agent Trajectories)",
+      "input_file": "/home/piet/Documents/dataset/structured/agent_tasks.jsonl",
+      "input_sha256": "d6887298e4ba7118519a6837fb15a038ce7ea657746548f75108f2d15f0e0a59",
+      "records_examined": 5,
+      "records_mapped": 5,
+      "records_quarantined": 0,
+      "duplicate_records": 0,
+      "sufficient_evidence": 0,
+      "requires_human_review": 5,
+      "missing_fields_counts": {},
+      "quarantine_reasons": {},
+      "output_file": "/home/piet/Documents/dataset/logic/data/ingested/dataset_c_trajectories.jsonl",
+      "output_count": 5
+    }
+  ],
+  "validation_tiers": {
+    "tier_1_static_schema": "Enforced on all mapped records via JSON schema validator.",
+    "tier_2_ast_parsing": "Grounded against scene/script files recorded in project graph.",
+    "tier_3_headless_launch": "Opt-in only; requires Godot 4 executable in isolated sandbox.",
+    "tier_4_gameplay_tests": "Runtime execution; requires interactive or headless runner.",
+    "statement_of_limits": "Static validation proves schema compliance and evidence grounding only; it does not claim games run without bugs."
+  }
+}

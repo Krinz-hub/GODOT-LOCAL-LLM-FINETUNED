@@ -1,0 +1,41 @@
+# Global Pipeline Configuration
+
+pipeline:
+  name: "godot-logic-pipeline"
+  version: "1.0.0"
+
+  directories:
+    data_dir: "logic/data"
+    raw_dir: "logic/data/raw"
+    normalized_dir: "logic/data/normalized"
+    cleaned_dir: "logic/data/cleaned"
+    projects_dir: "logic/data/projects"
+    production_logic_dir: "logic/data/production_logic"
+    debugging_dir: "logic/data/debugging"
+    trajectories_dir: "logic/data/trajectories"
+    training_dir: "logic/data/training"
+    quarantine_dir: "logic/data/quarantine"
+    manifests_dir: "logic/data/manifests"
+    reports_dir: "logic/reports"
+    logs_dir: "logic/logs"
+
+  execution:
+    concurrency_workers: 4
+    batch_size: 100
+    random_seed: 42
+    checkpoint_interval: 50
+    fail_fast: false
+
+  splits:
+    train_ratio: 0.80
+    val_ratio: 0.10
+    test_ratio: 0.10
+    split_strategy: "repository"  # Prevents leakage across files of same repo
+
+  export:
+    format: "sharegpt"  # ChatML/ShareGPT messages schema compatible with train_dgx.py
+    system_prompt: "You are an expert Godot 4 Engine developer and autonomous AI agent."
+    include_production_logic: true
+    include_projects: true
+    include_debugging: true
+    include_trajectories: true

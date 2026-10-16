@@ -1,0 +1,37 @@
+{
+  "scan": {
+    "total_files_scanned": 15,
+    "whitelisted_files": 0,
+    "vendor_bloat_dropped": 0,
+    "other_files_ignored": 15,
+    "gd_scripts": 0,
+    "tscn_scenes": 0,
+    "tres_resources": 0
+  },
+  "stage_1_sanitization": {
+    "emails_redacted": 0,
+    "local_paths_redacted": 0,
+    "binary_arrays_stripped": 0,
+    "base64_blobs_stripped": 0
+  },
+  "stage_2_transpilation": {
+    "export_var": 0,
+    "onready_var": 0,
+    "kinematic_2d": 0,
+    "kinematic_3d": 0,
+    "instance_calls": 0,
+    "yield_await": 0
+  },
+  "quarantine_drops": {
+    "untranspilable_apis": 0,
+    "empty_lifecycle_stubs": 0,
+    "encoding_errors": 0,
+    "unpaired_scripts_skipped": 0
+  },
+  "export": {
+    "pairs_processed": 0,
+    "records_exported": 0,
+    "elapsed_seconds": 0.0,
+    "throughput_records_per_sec": 0.0
+  }
+}

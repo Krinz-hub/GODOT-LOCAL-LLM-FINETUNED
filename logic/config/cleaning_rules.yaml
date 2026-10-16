@@ -1,0 +1,84 @@
+# Data Cleaning and Quality Rules
+
+cleaning:
+  file_extensions:
+    allowed:
+      - ".gd"
+      - ".tscn"
+      - ".tres"
+      - ".godot"
+      - ".md"
+      - ".json"
+    blocked_bloat:
+      - ".dll"
+      - ".so"
+      - ".dylib"
+      - ".wasm"
+      - ".a"
+      - ".lib"
+      - ".obj"
+      - ".o"
+      - ".exe"
+      - ".bin"
+      - ".pck"
+      - ".c"
+      - ".cpp"
+      - ".h"
+      - ".hpp"
+
+  code_quality:
+    min_lines_of_code: 4
+    max_file_size_bytes: 2097152  # 2MB
+    reject_base64_bloat_length: 100
+    strip_trailing_whitespace: true
+    normalize_line_endings: "\n"
+
+  scrubbing:
+    redact_emails: true
+    redact_local_paths: true
+    preserve_godot_protocols:
+      - "res://"
+      - "user://"
+      - "/root/"
+
+  godot4_transpilation_checks:
+    flag_godot3_patterns: true
+    auto_upgrade_annotations: false
+    patterns:
+      - name: "export_var"
+        regex: "(?<!@)\\bexport\\s*(?:\\([^)]*\\))?\\s*var\\b"
+        replacement: "@export var"
+      - name: "onready_var"
+        regex: "(?<!@)\\bonready\\s+var\\b"
+        replacement: "@onready var"
+      - name: "pool_string_array"
+        regex: "\\bPoolStringArray\\b"
+        replacement: "PackedStringArray"
+      - name: "pool_int_array"
+        regex: "\\bPoolIntArray\\b"
+        replacement: "PackedInt32Array"
+      - name: "pool_float_array"
+        regex: "\\bPoolRealArray\\b"
+        replacement: "PackedFloat32Array"
+      - name: "pool_vector2_array"
+        regex: "\\bPoolVector2Array\\b"
+        replacement: "PackedVector2Array"
+      - name: "pool_vector3_array"
+        regex: "\\bPoolVector3Array\\b"
+        replacement: "PackedVector3Array"
+      - name: "pool_color_array"
+        regex: "\\bPoolColorArray\\b"
+        replacement: "PackedColorArray"
+      - name: "pool_byte_array"
+        regex: "\\bPoolByteArray\\b"
+        replacement: "PackedByteArray"
+
+  quarantine_reasons:
+    - "EMPTY_CONTENT"
+    - "FILE_TOO_LARGE"
+    - "PARSE_SYNTAX_ERROR"
+    - "BLOCKED_EXTENSION"
+    - "INVALID_SCHEMA"
+    - "UNRESOLVED_CRITICAL_DEPENDENCY"
+    - "MISSING_PROVENANCE"
+    - "GODOT3_INCOMPATIBLE"

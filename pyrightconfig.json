@@ -1,0 +1,9 @@
+{
+  "venvPath": ".",
+  "venv": ".venv",
+  "extraPaths": [
+    "/home/piet/.local/lib/python3.12/site-packages",
+    "./.venv/lib/python3.12/site-packages",
+    "./logic/src"
+  ]
+}

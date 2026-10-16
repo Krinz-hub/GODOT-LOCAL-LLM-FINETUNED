@@ -1,0 +1,77 @@
+# Configuration for Data Collection Sources
+
+sources:
+  local:
+    enabled: true
+    description: "Explicitly configured local Godot projects"
+    project_paths:
+      - "logic/tests/fixtures/sample_project"
+    scan_depth: 3
+    exclude_patterns:
+      - "**/.git/**"
+      - "**/.venv/**"
+      - "**/node_modules/**"
+      - "**/build/**"
+      - "**/temp/**"
+      - "**/.godot/imported/**"
+
+  github:
+    enabled: false  # Must be explicitly enabled or run with --source github
+    description: "GitHub Godot repositories, releases, and commits"
+    api_base_url: "https://api.github.com"
+    token_env_var: "GITHUB_TOKEN"
+    rate_limit:
+      requests_per_minute: 30
+      backoff_factor: 2.0
+      max_retries: 3
+      timeout_seconds: 15
+    search_queries:
+      - "language:GDScript filename:project.godot stars:>10"
+      - "topic:godot4-game filename:project.godot"
+    min_stars: 5
+    max_repositories: 20
+    clone_strategy: "shallow"  # "shallow" (depth=1) or "sparse"
+    clone_depth: 1
+    target_godot_versions:
+      - "4.x"
+      - "4.0"
+      - "4.1"
+      - "4.2"
+      - "4.3"
+      - "4.4"
+    allowed_licenses:
+      - "MIT"
+      - "Apache-2.0"
+      - "BSD-2-Clause"
+      - "BSD-3-Clause"
+      - "CC0-1.0"
+      - "Unlicense"
+
+  docs:
+    enabled: true
+    description: "Approved official Godot documentation"
+    base_urls:
+      - "https://docs.godotengine.org/en/stable/"
+    version: "4.x"
+    max_pages: 50
+    rate_limit:
+      requests_per_minute: 20
+      timeout_seconds: 10
+    sections:
+      - "tutorials/scripting"
+      - "tutorials/2d"
+      - "tutorials/3d"
+      - "tutorials/physics"
+      - "tutorials/ui"
+      - "classes"
+
+  issues:
+    enabled: false
+    description: "Godot bug fixes, pull requests, and commit diffs"
+    repositories:
+      - "godotengine/godot"
+      - "godotengine/godot-demo-projects"
+    max_records: 50
+    state: "closed"
+    require_merged_pr: true
+    require_diff: true

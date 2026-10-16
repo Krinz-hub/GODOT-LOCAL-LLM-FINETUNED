@@ -1,0 +1,113 @@
+{
+  "audit_metadata": {
+    "generated_at": "2026-10-16T07:05:00Z",
+    "auditor_role": "Senior ML Infrastructure Engineer, Python Pipeline Architect, Godot AI Systems Auditor",
+    "target_repository": "/home/piet/Documents/dataset",
+    "hardware_target": "DGX Spark (Grace-Blackwell GB10 GPUs)",
+    "active_process": {
+      "pid": 5456,
+      "command": "python3 train_dgx.py",
+      "model": "Qwen/Qwen2.5-Coder-7B-Instruct",
+      "status": "RUNNING_UNINTERRUPTED",
+      "latest_checkpoint": "checkpoint-1200"
+    }
+  },
+  "severity_totals": {
+    "P0_critical": 2,
+    "P1_high": 4,
+    "P2_medium": 5,
+    "P3_low": 4,
+    "total_findings": 15
+  },
+  "dataset_inventory_counts": {
+    "source_projects_in_structured": 689,
+    "source_projects_joined_to_code": 689,
+    "source_projects_unjoined": 0,
+    "files_per_project": {
+      "min": 1,
+      "max": 2739,
+      "average": 108.1
+    },
+    "repositories_in_code_index": 720,
+    "orphaned_repositories_in_code": 31,
+    "orphaned_non_godot_files_in_code": 6508,
+    "total_code_records": 80981,
+    "code_language_distribution": {
+      "gdscript": 34616,
+      "godot_scene": 16437,
+      "csharp": 15086,
+      "godot_resource": 11805,
+      "unknown": 1626,
+      "shader": 1411,
+      "project_godot": 0
+    },
+    "project_version_distribution": {
+      "Godot 3.x": 148,
+      "Godot 4.7": 90,
+      "Godot 4.x": 85,
+      "Godot 4.6": 70,
+      "Godot 4.3": 57,
+      "Godot 4.2": 57,
+      "Godot 4.4": 52,
+      "Godot 4.5": 45,
+      "Godot 4.0": 41,
+      "Godot 4.1": 29,
+      "Godot 2.x": 7,
+      "unknown": 5,
+      "Godot 4.8": 3
+    },
+    "dataset_a_ingestion_yield": {
+      "examined": 689,
+      "mapped": 541,
+      "quarantined_godot3": 148,
+      "bypassed_godot2": 7,
+      "sufficient_evidence": 538,
+      "partial_evidence": 3
+    },
+    "dataset_b_debugging_records": 8,
+    "dataset_c_trajectories_records": 32,
+    "active_training_baseline_records": 7990
+  },
+  "token_length_and_truncation_metrics": {
+    "active_dataset_final_godot_sharegpt": {
+      "count": 7990,
+      "min_tokens_approx": 105,
+      "max_tokens_approx": 34870,
+      "avg_tokens_approx": 1253
+    },
+    "dataset_a_production_logic_plans": {
+      "count": 28,
+      "min_tokens_approx": 2012,
+      "max_tokens_approx": 8878,
+      "avg_tokens_approx": 4766
+    },
+    "training_max_seq_length_configured": null,
+    "truncation_risk_level": "CRITICAL"
+  },
+  "storage_redundancy": {
+    "duplicate_directory": "final/",
+    "duplicate_of": "structured/",
+    "identical_bytes": 631643594,
+    "identical_files_count": 6,
+    "redundancy_status": "CONFIRMED_EXACT_DUPLICATE"
+  },
+  "verification_and_test_status": {
+    "test_suite_total_tests": 53,
+    "passing_with_pythonpath": 53,
+    "failing_default_command": 1,
+    "default_failure_module": "test_canonical_pipeline.py",
+    "default_failure_reason": "ModuleNotFoundError: No module named 'logic_pipeline'",
+    "real_data_join_tests_count": 1,
+    "offline_static_validation_status": "PASS",
+    "headless_godot_runtime_status": "NOT_AVAILABLE (godot4 executable not in PATH)",
+    "automated_gameplay_acceptance_status": "NOT_AVAILABLE (no runtime test harness)"
+  },
+  "critical_limitations": [
+    "Active training process (PID 5456) is fine-tuning on a 7,990 scene-script dataset containing un-transpiled Godot 3 syntax.",
+    "Dataset B contains only 8 debugging records, none of which represent verified GDScript game repairs.",
+    "Dataset C consists of 32 synthetically wrapped PRs without interactive tool-calling execution traces.",
+    "structured/code.jsonl contains 0 project.godot files, forcing structured ingestion to bypass project config parsing.",
+    "Structured ingestion crashes when sample_size=None is passed due to an unhandled None comparison.",
+    "Dataset splitting starves the validation split to 0 records when project count < 10."
+  ]
+}

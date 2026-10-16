@@ -1,0 +1,58 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "GodotDebuggingRepairRecord",
+  "type": "object",
+  "required": [
+    "problem",
+    "context",
+    "root_cause",
+    "proposed_fix",
+    "fix_type",
+    "verification_result",
+    "limitations",
+    "execution_state"
+  ],
+  "properties": {
+    "problem": {
+      "type": "string",
+      "description": "Original observed problem, error message, or issue description."
+    },
+    "context": {
+      "type": "string",
+      "description": "Relevant code snippet, scene tree structure, or reproduction project details."
+    },
+    "root_cause": {
+      "type": "string",
+      "description": "Diagnosed root cause supported by evidence from issue discussion or engine architecture."
+    },
+    "proposed_fix": {
+      "type": "string",
+      "description": "Proposed or verified fix (diff patch, script modification, or conceptual solution)."
+    },
+    "fix_type": {
+      "type": "string",
+      "enum": ["diff_patch", "conceptual_solution", "code_snippet"]
+    },
+    "verification_result": {
+      "type": "string",
+      "description": "Verification result (e.g. verified_by_reporter, discussion_consensus, unverified_workaround)."
+    },
+    "limitations": {
+      "type": "string",
+      "description": "Known limitations or remaining issues with the proposed fix."
+    },
+    "godot_version": {
+      "type": "string"
+    },
+    "execution_state": {
+      "type": "string",
+      "description": "State label ensuring no false claims of runtime execution."
+    },
+    "requires_human_review": {
+      "type": "boolean"
+    },
+    "metadata": {
+      "type": "object"
+    }
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "GodotProjectRecord",
+  "type": "object",
+  "required": [
+    "project_id",
+    "project_name",
+    "godot_version",
+    "entry_scene",
+    "files"
+  ],
+  "properties": {
+    "record_type": {
+      "type": "string",
+      "default": "godot_project"
+    },
+    "project_id": {
+      "type": "string"
+    },
+    "project_name": {
+      "type": "string"
+    },
+    "project_path": {
+      "type": "string"
+    },
+    "repository": {
+      "type": ["string", "null"]
+    },
+    "godot_version": {
+      "type": "string"
+    },
+    "version_confidence": {
+      "type": "number"
+    },
+    "version_source": {
+      "type": "string"
+    },
+    "entry_scene": {
+      "type": "string"
+    },
+    "project_file": {
+      "type": "string"
+    },
+    "files": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "type", "size_bytes"],
+        "properties": {
+          "path": { "type": "string" },
+          "type": { "type": "string" },
+          "size_bytes": { "type": "integer" },
+          "content": { "type": ["string", "null"] }
+        }
+      }
+    },
+    "scripts": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "scenes": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "resources": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "autoloads": {
+      "type": "object"
+    },
+    "scene_dependencies": {
+      "type": "array"
+    },
+    "source": {
+      "type": "string"
+    },
+    "source_url": {
+      "type": "string"
+    },
+    "license": {
+      "type": "string"
+    },
+    "metadata": {
+      "type": "object"
+    }
+  }
+}

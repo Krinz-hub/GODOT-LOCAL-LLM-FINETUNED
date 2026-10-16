@@ -1,0 +1,63 @@
+{
+  "generated_at": "2026-09-28T09:46:47Z",
+  "sources": {
+    "github": 81670,
+    "stackoverflow": 21,
+    "godot_forum": 11,
+    "godot_docs": 22,
+    "github_pr": 32,
+    "github_issue": 8
+  },
+  "total_records": 81764,
+  "languages": {
+    "Q&A": 32,
+    "Documentation": 22,
+    "godot_scene": 16437,
+    "gdscript": 34616,
+    "unknown": 1626,
+    "csharp": 15086,
+    "godot_resource": 11805,
+    "shader": 1411
+  },
+  "godot_versions": {
+    "Godot 4.3": 7850,
+    "Godot 4.7": 20172,
+    "Godot 4.6": 9435,
+    "Godot 4.5": 4042,
+    "Godot 4.1": 1700,
+    "Godot 4.4": 4579,
+    "Godot 3.x": 15526,
+    "Godot 4.x": 5933,
+    "Godot 4.0": 1243,
+    "Godot 2.x": 472,
+    "Godot 4.2": 3746,
+    "unknown": 6125,
+    "Godot 4.8": 941
+  },
+  "task_types": {
+    "explanation": 2398,
+    "qa": 21,
+    "testing": 14355,
+    "optimization": 1879,
+    "code_editing": 16631,
+    "migration": 1811,
+    "debugging": 14067,
+    "code_completion": 80992,
+    "generation": 80992,
+    "documentation": 22,
+    "architecture": 1773,
+    "game_design": 1773,
+    "planning": 1773,
+    "refactoring": 2188,
+    "agent_task": 32
+  },
+  "dataset_types": {
+    "projects": 689,
+    "qa": 32,
+    "documentation": 22,
+    "code": 80981,
+    "agent_tasks": 32,
+    "debugging": 8
+  },
+  "total_size_bytes": 1578087288
+}
