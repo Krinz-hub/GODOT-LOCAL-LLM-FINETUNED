@@ -1,0 +1,71 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg-app: #0b0d13;
+    --bg-surface: #11141d;
+    --bg-panel: #151924;
+    --border-color: #23293a;
+    --border-light: #2e364c;
+    --text-primary: #edf1fa;
+    --text-secondary: #9aa5c4;
+    --text-muted: #5d6785;
+    --accent: #478cbf;
+    --accent-hover: #5ba3d9;
+    --accent-active: #3a75a2;
+    --success: #2ecc71;
+    --warning: #f39c12;
+    --danger: #e74c3c;
+  }
+
+  * {
+    border-color: var(--border-color);
+  }
+
+  body {
+    background-color: var(--bg-app);
+    color: var(--text-primary);
+    user-select: none;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Custom subtle scrollbars */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #23293a;
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #3b4461;
+  }
+}
+
+/* Code & diff styling */
+pre, code {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+.diff-add {
+  background-color: rgba(46, 204, 113, 0.15);
+  color: #a3e635;
+  border-left: 3px solid #22c55e;
+}
+
+.diff-remove {
+  background-color: rgba(231, 76, 60, 0.15);
+  color: #fca5a5;
+  border-left: 3px solid #ef4444;
+}
+
+.diff-meta {
+  color: #64748b;
+  background-color: rgba(30, 41, 59, 0.5);
+}

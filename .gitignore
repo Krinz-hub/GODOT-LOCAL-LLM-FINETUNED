@@ -117,6 +117,13 @@ temp/
 # ==================================================
 !/logic/tests/fixtures/
 !/logic/tests/fixtures/**
+/2d_platformer
 
 # Keep logic/reports/ tracked so audit reports can be reviewed.
 # Add individual report paths here only if they are temporary.
+
+# Desktop App builds & dependencies
+/desktop_app/node_modules/
+/desktop_app/dist/
+/desktop_app/dist-electron/
+/desktop_app/.agent_backup/

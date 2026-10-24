@@ -1,0 +1,61 @@
+{
+  "timestamp": "2026-10-21 13:10:05",
+  "total_score_pct": 90.0,
+  "total_score": 360,
+  "total_possible": 400,
+  "avg_latency_sec": 6.34,
+  "tests": [
+    {
+      "id": "T1_MECHANICS",
+      "name": "Game Mechanics: 2D Kinematic Controller with Double Jump & Wall Slide",
+      "score": 100,
+      "max_score": 100,
+      "elapsed_sec": 15.98,
+      "criteria": [
+        "\u2713 Found 5/5 domain keywords (velocity, gravity, move_and_slide, is_on_floor, jump)",
+        "\u2713 Clean markdown code block formatting",
+        "\u2713 Complete implementation without placeholder comments"
+      ],
+      "sample_output": "```gdscript extends CharacterBody2D  @export var speed := 600.0 @export var jump_force := -800.0 @export var gravity := 3000.0 @export var max_velocity := 1500.0 @export var friction := 1200.0 @export var double_jump_force := -600.0 @export var wall_..."
+    },
+    {
+      "id": "T2_ACTION_JSON",
+      "name": "Autonomous Action: Scene & Node Generation",
+      "score": 100,
+      "max_score": 100,
+      "elapsed_sec": 4.69,
+      "criteria": [
+        "\u2713 Correct action_type generated",
+        "\u2713 Correct target file_path identified",
+        "\u2713 Appropriate scene definition/content produced"
+      ],
+      "sample_output": "{'thought': 'Creating a new coin scene with an Area2D root node named Coin and a CollisionShape2D child.', 'action_type': 'create_or_update_scene', 'parameters': {'file_path': 'scenes/coin.tscn', 'root_node_name': 'Coin', 'root_node_type': 'Area2D', ..."
+    },
+    {
+      "id": "T3_POWERUP_LOGIC",
+      "name": "Feature Addition: Shield / Invulnerability Mechanic",
+      "score": 75,
+      "max_score": 100,
+      "elapsed_sec": 2.85,
+      "criteria": [
+        "\u2713 Found 2/4 domain keywords (emit_signal, signal)",
+        "\u2713 Clean markdown code block formatting",
+        "\u2713 Complete implementation without placeholder comments"
+      ],
+      "sample_output": "```gdscript func grant_shield(): \tshield = true \t$Sprite.material.set_shader_parameter(\"shield\", true) \temit_signal(\"shield_granted\")  func hit_hazard() -> bool: \tif shield: \t\t$Sprite.material.set_shader_parameter(\"shield\", false) \t\tshield = false \t\t..."
+    },
+    {
+      "id": "T4_ENGINE_API",
+      "name": "Godot API Version Awareness: Signals & Connections",
+      "score": 85,
+      "max_score": 100,
+      "elapsed_sec": 1.85,
+      "criteria": [
+        "\u2713 Found 6/6 domain keywords (Timer, wait_time, one_shot, connect, timeout, start)",
+        "\u2713 Clean markdown code block formatting",
+        "\u26a0 Partial implementation or placeholders detected"
+      ],
+      "sample_output": "```gdscript var timer = Timer.new() timer.one_shot = true timer.wait_time = 1.5 timer.autostart = false timer.connect(\"timeout\", self, \"_on_timer_timeout\") add_child(timer) timer.start() ```..."
+    }
+  ]
+}

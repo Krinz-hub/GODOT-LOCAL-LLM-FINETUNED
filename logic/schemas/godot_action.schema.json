@@ -1,0 +1,84 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "GodotAgentAction",
+  "description": "Schema for structured actions taken by the Godot Local AI Agent on a Godot project.",
+  "type": "object",
+  "required": ["thought", "action_type", "parameters"],
+  "properties": {
+    "thought": {
+      "type": "string",
+      "description": "Reasoning explaining why this specific action was chosen."
+    },
+    "action_type": {
+      "type": "string",
+      "enum": [
+        "create_scene",
+        "edit_scene",
+        "delete_scene",
+        "create_or_update_script",
+        "create_or_update_scene",
+        "read_file",
+        "list_project_files",
+        "run_project",
+        "chat_response"
+      ],
+      "description": "The type of action to perform on the Godot application or project."
+    },
+    "parameters": {
+      "type": "object",
+      "description": "Parameters specific to the selected action_type.",
+      "properties": {
+        "file_path": {
+          "type": "string",
+          "description": "Relative file path inside the Godot project (e.g., 'scripts/player.gd' or 'scenes/main.tscn')."
+        },
+        "root_node_name": {
+          "type": "string",
+          "description": "Name for the root node of the scene (e.g., 'Player' or 'MainLevel')."
+        },
+        "root_node_type": {
+          "type": "string",
+          "description": "Godot engine node type for the root node (e.g., 'Node2D', 'CharacterBody2D', 'Control')."
+        },
+        "content": {
+          "type": "string",
+          "description": "Complete GDScript code or TSCN scene text to write."
+        },
+        "script_path": {
+          "type": "string",
+          "description": "Optional script path to attach to the scene (e.g., 'res://scripts/player.gd')."
+        },
+        "overwrite": {
+          "type": "boolean",
+          "description": "Whether to overwrite an existing scene when creating."
+        },
+        "add_nodes": {
+          "type": "array",
+          "description": "List of node definitions to add to an existing scene during edit_scene.",
+          "items": {
+            "type": "object"
+          }
+        },
+        "remove_nodes": {
+          "type": "array",
+          "description": "List of node names to remove from an existing scene during edit_scene.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "attach_script": {
+          "type": "object",
+          "description": "Script attachment descriptor for edit_scene with 'node' and 'script_path'."
+        },
+        "command": {
+          "type": "string",
+          "description": "Arguments for running the Godot project (e.g., '--headless', or scene path)."
+        },
+        "message": {
+          "type": "string",
+          "description": "Explanatory message when action_type is 'chat_response'."
+        }
+      }
+    }
+  }
+}
