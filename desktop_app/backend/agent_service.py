@@ -815,6 +815,130 @@ def execute_agent_action(payload: Dict[str, Any]) -> Dict[str, Any]:
     return res
 
 
+def _get_service_generator_fn() -> Optional[Any]:
+    """Helper to provide model generation to orchestrator if loaded."""
+    if model_mgr.state != "ready" or model_mgr.model is None or model_mgr.tokenizer is None:
+        return None
+    import torch
+
+    def _gen(messages: List[Dict[str, str]]) -> str:
+        with model_mgr.lock:
+            raw_inputs = model_mgr.tokenizer.apply_chat_template(
+                messages,
+                tokenize=True,
+                add_generation_prompt=True,
+                return_tensors="pt",
+                return_dict=True,
+            )
+            input_device = getattr(model_mgr.model, "device", torch.device(model_mgr.device))
+            inputs = {k: v.to(input_device) if isinstance(v, torch.Tensor) else v for k, v in raw_inputs.items()}
+            input_len = inputs["input_ids"].shape[-1]
+            with torch.inference_mode():
+                outputs = model_mgr.model.generate(
+                    **inputs,
+                    max_new_tokens=1200,
+                    do_sample=True,
+                    temperature=0.3,
+                    repetition_penalty=1.05,
+                    pad_token_id=model_mgr.pad_token_id,
+                    eos_token_id=model_mgr.eos_token_ids,
+                )
+            new_tokens = outputs[0, input_len:]
+            return model_mgr.tokenizer.decode(new_tokens, skip_special_tokens=True).strip()
+
+    return _gen
+
+
+@app.post("/api/agent/plan")
+def plan_agent_task(payload: Dict[str, Any]) -> Dict[str, Any]:
+    user_request = payload.get("prompt") or payload.get("user_request")
+    if not user_request:
+        raise HTTPException(status_code=400, detail="Missing 'prompt' or 'user_request'.")
+
+    proj_dir = payload.get("project_path")
+    target_path = Path(proj_dir).resolve() if proj_dir else project_mgr.active_path
+    if not target_path or not target_path.exists():
+        raise HTTPException(status_code=400, detail="No valid Godot project connected or provided.")
+
+    import sys
+    if str(REPO_ROOT) not in sys.path:
+        sys.path.insert(0, str(REPO_ROOT))
+    from logic.orchestrator.orchestrator import AutonomousProjectOrchestrator
+
+    gen_fn = _get_service_generator_fn()
+    orch = AutonomousProjectOrchestrator(target_path, generator_fn=gen_fn)
+    plan = orch.plan(user_request)
+    return plan.to_dict()
+
+
+@app.post("/api/agent/orchestrate")
+def orchestrate_agent_task(payload: Dict[str, Any]) -> Dict[str, Any]:
+    user_request = payload.get("prompt") or payload.get("user_request", "")
+    max_repairs = payload.get("max_repairs", 2)
+    proj_dir = payload.get("project_path")
+    target_path = Path(proj_dir).resolve() if proj_dir else project_mgr.active_path
+    if not target_path or not target_path.exists():
+        raise HTTPException(status_code=400, detail="No valid Godot project connected or provided.")
+
+    import sys
+    if str(REPO_ROOT) not in sys.path:
+        sys.path.insert(0, str(REPO_ROOT))
+    from logic.orchestrator.orchestrator import AutonomousProjectOrchestrator
+
+    gen_fn = _get_service_generator_fn()
+    orch = AutonomousProjectOrchestrator(target_path, generator_fn=gen_fn)
+
+    if user_request:
+        plan = orch.plan(user_request)
+    else:
+        plan = orch.get_current_plan()
+        if not plan:
+            raise HTTPException(status_code=400, detail="No existing plan found and no prompt provided.")
+
+    summary = orch.execute_plan(plan, max_repairs_per_task=max_repairs)
+    return summary
+
+
+@app.get("/api/agent/plan/status")
+def get_plan_status(project_path: Optional[str] = Query(None)) -> Dict[str, Any]:
+    target_path = Path(project_path).resolve() if project_path else project_mgr.active_path
+    if not target_path or not target_path.exists():
+        raise HTTPException(status_code=400, detail="No valid Godot project connected or provided.")
+
+    import sys
+    if str(REPO_ROOT) not in sys.path:
+        sys.path.insert(0, str(REPO_ROOT))
+    from logic.orchestrator.orchestrator import AutonomousProjectOrchestrator
+
+    orch = AutonomousProjectOrchestrator(target_path)
+    plan = orch.get_current_plan()
+    if not plan:
+        raise HTTPException(status_code=404, detail="No active plan found for this project.")
+    return plan.to_dict()
+
+
+@app.post("/api/agent/plan/resume")
+def resume_plan_execution(payload: Dict[str, Any]) -> Dict[str, Any]:
+    max_repairs = payload.get("max_repairs", 2)
+    proj_dir = payload.get("project_path")
+    target_path = Path(proj_dir).resolve() if proj_dir else project_mgr.active_path
+    if not target_path or not target_path.exists():
+        raise HTTPException(status_code=400, detail="No valid Godot project connected or provided.")
+
+    import sys
+    if str(REPO_ROOT) not in sys.path:
+        sys.path.insert(0, str(REPO_ROOT))
+    from logic.orchestrator.orchestrator import AutonomousProjectOrchestrator
+
+    gen_fn = _get_service_generator_fn()
+    orch = AutonomousProjectOrchestrator(target_path, generator_fn=gen_fn)
+    try:
+        summary = orch.resume_execution(max_repairs_per_task=max_repairs)
+        return summary
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
 if __name__ == "__main__":
     import uvicorn
     port = int(os.environ.get("AGENT_PORT", 8000))

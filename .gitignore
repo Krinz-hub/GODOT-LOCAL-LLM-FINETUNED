@@ -48,6 +48,7 @@ service-account*.json
 /structured/
 /final/
 /cleaned/
+/cleaned_dataset/
 /deduplicated/
 /quarantine/
 

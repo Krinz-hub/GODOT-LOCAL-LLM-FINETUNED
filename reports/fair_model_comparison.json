@@ -1,0 +1,229 @@
+[
+  {
+    "model_name": "Base Model (Qwen2.5-Coder-7B)",
+    "total_tasks": 6,
+    "passed_tasks": 2,
+    "pass_rate_pct": 33.3,
+    "avg_latency_sec": 12.75,
+    "total_elapsed_sec": 77.09,
+    "tasks": [
+      {
+        "id": "TASK_01_KINEMATIC_CONTROLLER",
+        "name": "2D Kinematic Controller with Double Jump & Wall Slide",
+        "category": "mechanics",
+        "passed": false,
+        "elapsed_sec": 46.93,
+        "diagnostics": [
+          "Syntax Error: Contains deprecated Godot 3 patterns: move_and_slide_with_args",
+          "Deprecated APIs: ['move_and_slide_with_args']"
+        ],
+        "output_preview": "```gdscript extends CharacterBody2D  @export var speed = 300.0 @export var jump_velocity = -400.0 @export var double_jump_velocity = -350.0 @export var gravity = 980.0 @export var friction = 100.0 @ex"
+      },
+      {
+        "id": "TASK_02_AUTONOMOUS_ACTION_SCENE",
+        "name": "Autonomous Action: Scene & Node Generation",
+        "category": "action_generation",
+        "passed": true,
+        "elapsed_sec": 10.16,
+        "diagnostics": [],
+        "output_preview": "```json {   \"action_type\": \"create_scene\",   \"thought\": \"Creating a new coin scene with an Area2D root node and a CollisionShape2D child.\",   \"parameters\": {     \"file_path\": \"scenes/coin.tscn\",     \""
+      },
+      {
+        "id": "TASK_03_SHIELD_MECHANIC",
+        "name": "Feature Addition: Shield / Invulnerability Mechanic",
+        "category": "mechanics",
+        "passed": false,
+        "elapsed_sec": 6.75,
+        "diagnostics": [
+          "Functional Failure: Functional assertions failed (exit code 1)",
+          "SCRIPT ERROR: Parse Error: Expected indented block after class declaration.\n          at: GDScript::reload (res://runner.gd:3)\nERROR: Failed to load script \"res://runner.gd\" with error \"Parse error\".\n   at: load (modules/gdscript/gdscript_resource_format.cpp:46)"
+        ],
+        "output_preview": "```gdscript extends RefCounted  signal shield_broken  var has_shield: bool = false  func grant_shield() -> void:     has_shield = true  func hit_hazard() -> bool:     if has_shield:         has_shield"
+      },
+      {
+        "id": "TASK_04_TIMER_SIGNALS",
+        "name": "Godot 4 API Awareness: Timer and Modern Signals",
+        "category": "engine_api",
+        "passed": false,
+        "elapsed_sec": 5.81,
+        "diagnostics": [
+          "Syntax Error: Contains deprecated Godot 3 patterns: old_connect_string",
+          "Deprecated APIs: ['old_connect_string']"
+        ],
+        "output_preview": "```gdscript extends Node  func setup_one_shot_timer(duration: float, callback: Callable) -> Timer:     var timer = Timer.new()     timer.wait_time = duration     timer.one_shot = true     timer.connec"
+      },
+      {
+        "id": "TASK_05_SURGICAL_BUGFIX",
+        "name": "Surgical Defect Repair: Terminal Velocity Cap",
+        "category": "regression",
+        "passed": false,
+        "elapsed_sec": 6.83,
+        "diagnostics": [
+          "Functional Failure: Functional assertions failed (exit code 1)",
+          "SCRIPT ERROR: Parse Error: Expected indented block after class declaration.\n          at: GDScript::reload (res://runner.gd:3)\nERROR: Failed to load script \"res://runner.gd\" with error \"Parse error\".\n   at: load (modules/gdscript/gdscript_resource_format.cpp:46)"
+        ],
+        "output_preview": "```gdscript extends CharacterBody2D  @export var gravity: float = 980.0 @export var max_fall_speed: float = 800.0  func apply_gravity(delta: float) -> void:     velocity.y += gravity * delta     if ve"
+      },
+      {
+        "id": "TASK_06_NEGATIVE_REJECTION",
+        "name": "Negative Test: Rejection of Godot 3 Legacy Code",
+        "category": "regression",
+        "passed": true,
+        "elapsed_sec": 0.01,
+        "diagnostics": [],
+        "output_preview": "[NEGATIVE TEST FIXTURE]"
+      }
+    ]
+  },
+  {
+    "model_name": "Fine-Tuned Model (Qwen2.5-Coder-7B-LoRA)",
+    "total_tasks": 6,
+    "passed_tasks": 1,
+    "pass_rate_pct": 16.7,
+    "avg_latency_sec": 19.53,
+    "total_elapsed_sec": 118.25,
+    "tasks": [
+      {
+        "id": "TASK_01_KINEMATIC_CONTROLLER",
+        "name": "2D Kinematic Controller with Double Jump & Wall Slide",
+        "category": "mechanics",
+        "passed": false,
+        "elapsed_sec": 20.33,
+        "diagnostics": [
+          "Functional Failure: Functional assertions failed (exit code 1)",
+          "SCRIPT ERROR: Parse Error: Expected indented block after class declaration.\n          at: GDScript::reload (res://runner.gd:3)\nERROR: Failed to load script \"res://runner.gd\" with error \"Parse error\".\n   at: load (modules/gdscript/gdscript_resource_format.cpp:46)"
+        ],
+        "output_preview": "```gdscript extends CharacterBody2D  @export var speed := 300.0 @export var jump_velocity := -400.0 @export var double_jump_velocity := -350.0  var is_jumping := false var can_double_jump := false  fu"
+      },
+      {
+        "id": "TASK_02_AUTONOMOUS_ACTION_SCENE",
+        "name": "Autonomous Action: Scene & Node Generation",
+        "category": "action_generation",
+        "passed": false,
+        "elapsed_sec": 78.38,
+        "diagnostics": [
+          "Invalid action_type: create_file"
+        ],
+        "output_preview": "```json {   \"action_type\": \"create_file\",   \"thought\": \"The player will drop coins on the ground, which will be collected by the player's character. To implement this, we need to create a new scene wi"
+      },
+      {
+        "id": "TASK_03_SHIELD_MECHANIC",
+        "name": "Feature Addition: Shield / Invulnerability Mechanic",
+        "category": "mechanics",
+        "passed": false,
+        "elapsed_sec": 7.41,
+        "diagnostics": [
+          "Functional Failure: Functional assertions failed (exit code 1)",
+          "SCRIPT ERROR: Parse Error: Expected indented block after class declaration.\n          at: GDScript::reload (res://runner.gd:4)\nERROR: Failed to load script \"res://runner.gd\" with error \"Parse error\".\n   at: load (modules/gdscript/gdscript_resource_format.cpp:46)"
+        ],
+        "output_preview": "```gdscript class_name ShieldMechanic extends RefCounted  signal shield_broken  var has_shield: bool = false   func grant_shield() -> void: \thas_shield = true   func hit_hazard() -> bool: \tif has_shie"
+      },
+      {
+        "id": "TASK_04_TIMER_SIGNALS",
+        "name": "Godot 4 API Awareness: Timer and Modern Signals",
+        "category": "engine_api",
+        "passed": false,
+        "elapsed_sec": 3.72,
+        "diagnostics": [
+          "Syntax Error: Compiler syntax error (exit code 1)",
+          "SCRIPT ERROR: Parse Error: Unexpected \"Indent\" in class body.\n          at: GDScript::reload (res://eval_candidate.gd:2)\nERROR: Failed to load script \"res://eval_candidate.gd\" with error \"Parse error\".\n   at: load (modules/gdscript/gdscript_resource_format.cpp:46)"
+        ],
+        "output_preview": "```gdscript \tvar timer := Timer.new() \ttimer.wait_time = duration \ttimer.one_shot = true \ttimer.connect(\"timeout\", callback) \tadd_child(timer) \ttimer.start() \treturn timer ```"
+      },
+      {
+        "id": "TASK_05_SURGICAL_BUGFIX",
+        "name": "Surgical Defect Repair: Terminal Velocity Cap",
+        "category": "regression",
+        "passed": false,
+        "elapsed_sec": 7.33,
+        "diagnostics": [
+          "Functional Failure: Functional assertions failed (exit code 1)",
+          "SCRIPT ERROR: Parse Error: Expected indented block after class declaration.\n          at: GDScript::reload (res://runner.gd:3)\nERROR: Failed to load script \"res://runner.gd\" with error \"Parse error\".\n   at: load (modules/gdscript/gdscript_resource_format.cpp:46)"
+        ],
+        "output_preview": "```gdscript extends CharacterBody2D  @export var gravity: float = 980.0 @export var max_fall_speed: float = 800.0  func apply_gravity(delta: float) -> void:     velocity.y += gravity * delta     if ve"
+      },
+      {
+        "id": "TASK_06_NEGATIVE_REJECTION",
+        "name": "Negative Test: Rejection of Godot 3 Legacy Code",
+        "category": "regression",
+        "passed": true,
+        "elapsed_sec": 0.01,
+        "diagnostics": [],
+        "output_preview": "[NEGATIVE TEST FIXTURE]"
+      }
+    ]
+  },
+  {
+    "model_name": "Fine-Tuned Model + Repaired Self-Correction Pipeline",
+    "total_tasks": 6,
+    "passed_tasks": 4,
+    "pass_rate_pct": 66.7,
+    "avg_latency_sec": 26.22,
+    "total_elapsed_sec": 157.3,
+    "tasks": [
+      {
+        "id": "TASK_01_KINEMATIC_CONTROLLER",
+        "name": "2D Kinematic Controller with Double Jump & Wall Slide",
+        "category": "mechanics",
+        "passed": false,
+        "elapsed_sec": 91.35,
+        "diagnostics": [
+          "Attempt 1 validation failure: SCRIPT ERROR: Parse Error: Too many arguments for \"move_and_slide()\" call. Expected at most 0 but received 1.\n          at: GDScript::reload (res://script.gd:16)\nSCRIPT ERROR: Parse Error: Too many arguments for \"move_and_slide()\" call. Expected at most 0 but received 1.\n          at: GDScript::reload (res://script.gd:18)\nERROR: Failed to load script \"res://script.gd\" with error \"Parse error\".\n   at: load (modules/gdscript/gdscript_resource_format.cpp:46)",
+          "Attempt 2 validation failure: SCRIPT ERROR: Parse Error: Too many arguments for \"move_and_slide()\" call. Expected at most 0 but received 1.\n          at: GDScript::reload (res://script.gd:16)\nERROR: Failed to load script \"res://script.gd\" with error \"Parse error\".\n   at: load (modules/gdscript/gdscript_resource_format.cpp:46)",
+          "Attempt 3 validation failure: SCRIPT ERROR: Parse Error: Too many arguments for \"move_and_slide()\" call. Expected at most 0 but received 1.\n          at: GDScript::reload (res://script.gd:16)\nERROR: Failed to load script \"res://script.gd\" with error \"Parse error\".\n   at: load (modules/gdscript/gdscript_resource_format.cpp:46)",
+          "Validation checks failed across all bounded repair attempts. Project state preserved."
+        ],
+        "output_preview": "extends CharacterBody2D\n\n@export var speed := 300.0\n@export var jump_velocity := -400.0\n@export var double_jump_velocity := -350.0\n\nvar is_jumping := false\nvar is_double_jumping := false\nvar is_wall_s"
+      },
+      {
+        "id": "TASK_02_AUTONOMOUS_ACTION_SCENE",
+        "name": "Autonomous Action: Scene & Node Generation",
+        "category": "action_generation",
+        "passed": false,
+        "elapsed_sec": 41.75,
+        "diagnostics": [
+          "Invalid action_type: create_file"
+        ],
+        "output_preview": "```json {   \"action_type\": \"create_file\",   \"thought\": \"The player will drop coins on the ground. To detect when the player collides with a coin, we need to add an Area2D node as the root of the coin "
+      },
+      {
+        "id": "TASK_03_SHIELD_MECHANIC",
+        "name": "Feature Addition: Shield / Invulnerability Mechanic",
+        "category": "mechanics",
+        "passed": true,
+        "elapsed_sec": 7.12,
+        "diagnostics": [],
+        "output_preview": "extends RefCounted\n\nsignal shield_broken\n\nvar has_shield: bool = false\n\nfunc grant_shield() -> void:\n\thas_shield = true\n\n\nfunc hit_hazard() -> bool:\n\tif has_shield:\n\t\thas_shield = false\n\t\tshield_broke"
+      },
+      {
+        "id": "TASK_04_TIMER_SIGNALS",
+        "name": "Godot 4 API Awareness: Timer and Modern Signals",
+        "category": "engine_api",
+        "passed": true,
+        "elapsed_sec": 9.44,
+        "diagnostics": [
+          "Attempt 1 validation failure: SCRIPT ERROR: Parse Error: Unexpected \"Indent\" in class body.\n          at: GDScript::reload (res://script.gd:2)\nERROR: Failed to load script \"res://script.gd\" with error \"Parse error\".\n   at: load (modules/gdscript/gdscript_resource_format.cpp:46)"
+        ],
+        "output_preview": "extends Node\n\nfunc setup_one_shot_timer(duration: float, callback: Callable) -> Timer:\n\tvar timer := Timer.new()\n\ttimer.wait_time = duration\n\ttimer.one_shot = true\n\ttimer.timeout.connect(callback)\n\tad"
+      },
+      {
+        "id": "TASK_05_SURGICAL_BUGFIX",
+        "name": "Surgical Defect Repair: Terminal Velocity Cap",
+        "category": "regression",
+        "passed": true,
+        "elapsed_sec": 7.64,
+        "diagnostics": [],
+        "output_preview": "extends CharacterBody2D\n\n@export var gravity: float = 980.0\n@export var max_fall_speed: float = 800.0\n\nfunc apply_gravity(delta: float) -> void:\n    velocity.y += gravity * delta\n    if velocity.y > m"
+      },
+      {
+        "id": "TASK_06_NEGATIVE_REJECTION",
+        "name": "Negative Test: Rejection of Godot 3 Legacy Code",
+        "category": "regression",
+        "passed": true,
+        "elapsed_sec": 0.01,
+        "diagnostics": [],
+        "output_preview": "[NEGATIVE TEST FIXTURE]"
+      }
+    ]
+  }
+]

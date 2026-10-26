@@ -114,8 +114,25 @@ def load_model_and_tokenizer(device_map: str = "auto") -> None:
 
 
 def extract_json_from_text(text: str) -> Dict[str, Any]:
-    """Robustly extracts JSON object from model output."""
+    """Robustly extracts JSON object or delimited action from model output."""
     cleaned = text.strip()
+
+    # 0. Check for <godot_action> delimited block with optional adjoining code fence
+    delim_match = re.search(r"<godot_action>(.*?)</godot_action>", cleaned, re.DOTALL | re.IGNORECASE)
+    if delim_match:
+        action_json_str = delim_match.group(1).strip()
+        try:
+            data = json.loads(action_json_str)
+            if isinstance(data, dict):
+                code_match = re.search(r"```(?:gdscript|tscn)?\s*\n(.*?)```", cleaned, re.DOTALL)
+                if code_match:
+                    params = data.setdefault("parameters", {})
+                    if not params.get("content"):
+                        params["content"] = code_match.group(1).strip()
+                return data
+        except Exception:
+            pass
+
     # Check for markdown code fences
     fence_match = re.search(r"```(?:json)?\s*(\{.*?\})\s*```", cleaned, re.DOTALL)
     if fence_match:
@@ -131,6 +148,11 @@ def extract_json_from_text(text: str) -> Dict[str, Any]:
     try:
         data = json.loads(cleaned)
         if isinstance(data, dict):
+            # If content is empty but an unescaped gdscript fence exists outside the JSON
+            if "parameters" in data and not data["parameters"].get("content"):
+                code_match = re.search(r"```(?:gdscript|tscn)?\s*\n(.*?)```", text, re.DOTALL)
+                if code_match:
+                    data["parameters"]["content"] = code_match.group(1).strip()
             return data
     except Exception:
         pass
@@ -1190,6 +1212,20 @@ class GodotAgentHTTPHandler(BaseHTTPRequestHandler):
             status = HTTPStatus.OK if result.get("success") else HTTPStatus.NOT_FOUND
             self._send_json(status, result)
 
+        elif path == "/v1/plan/status":
+            query = urllib.parse.parse_qs(parsed_url.query)
+            proj_path = query.get("project_path", [""])[0] or DEFAULT_PROJECT_PATH
+            if not proj_path:
+                self._send_json(HTTPStatus.BAD_REQUEST, {"error": "Missing 'project_path' parameter."})
+                return
+            from logic.orchestrator.orchestrator import AutonomousProjectOrchestrator
+            orch = AutonomousProjectOrchestrator(Path(proj_path))
+            plan = orch.get_current_plan()
+            if not plan:
+                self._send_json(HTTPStatus.NOT_FOUND, {"error": "No active plan found on disk."})
+            else:
+                self._send_json(HTTPStatus.OK, plan.to_dict())
+
         else:
             self._send_json(HTTPStatus.NOT_FOUND, {"error": f"Endpoint '{path}' not found."})
 
@@ -1398,6 +1434,53 @@ class GodotAgentHTTPHandler(BaseHTTPRequestHandler):
             result = delete_scene(project_path=proj_path, file_path=file_path)
             status = HTTPStatus.OK if result.get("success") else HTTPStatus.BAD_REQUEST
             self._send_json(status, result)
+
+        # 8. /v1/plan: Generate dependency-aware project plan
+        elif path == "/v1/plan":
+            proj_path = req_data.get("project_path") or DEFAULT_PROJECT_PATH
+            request_text = req_data.get("prompt") or req_data.get("user_request", "")
+            if not proj_path or not request_text:
+                self._send_json(HTTPStatus.BAD_REQUEST, {"error": "Missing 'project_path' or 'prompt'/'user_request'."})
+                return
+            from logic.orchestrator.orchestrator import AutonomousProjectOrchestrator
+            orch = AutonomousProjectOrchestrator(Path(proj_path), generator_fn=generate_text)
+            plan = orch.plan(request_text)
+            self._send_json(HTTPStatus.OK, plan.to_dict())
+
+        # 9. /v1/orchestrate: Full autonomous execution cycle
+        elif path == "/v1/orchestrate":
+            proj_path = req_data.get("project_path") or DEFAULT_PROJECT_PATH
+            request_text = req_data.get("prompt") or req_data.get("user_request", "")
+            max_repairs = req_data.get("max_repairs", 2)
+            if not proj_path:
+                self._send_json(HTTPStatus.BAD_REQUEST, {"error": "Missing 'project_path'."})
+                return
+            from logic.orchestrator.orchestrator import AutonomousProjectOrchestrator
+            orch = AutonomousProjectOrchestrator(Path(proj_path), generator_fn=generate_text)
+            if request_text:
+                plan = orch.plan(request_text)
+            else:
+                plan = orch.get_current_plan()
+                if not plan:
+                    self._send_json(HTTPStatus.BAD_REQUEST, {"error": "No existing plan found and no prompt provided."})
+                    return
+            summary = orch.execute_plan(plan, max_repairs_per_task=max_repairs)
+            self._send_json(HTTPStatus.OK, summary)
+
+        # 10. /v1/plan/resume: Resume interrupted plan
+        elif path == "/v1/plan/resume":
+            proj_path = req_data.get("project_path") or DEFAULT_PROJECT_PATH
+            max_repairs = req_data.get("max_repairs", 2)
+            if not proj_path:
+                self._send_json(HTTPStatus.BAD_REQUEST, {"error": "Missing 'project_path'."})
+                return
+            from logic.orchestrator.orchestrator import AutonomousProjectOrchestrator
+            orch = AutonomousProjectOrchestrator(Path(proj_path), generator_fn=generate_text)
+            try:
+                summary = orch.resume_execution(max_repairs_per_task=max_repairs)
+                self._send_json(HTTPStatus.OK, summary)
+            except Exception as e:
+                self._send_json(HTTPStatus.BAD_REQUEST, {"error": str(e)})
 
         else:
             self._send_json(HTTPStatus.NOT_FOUND, {"error": f"Endpoint '{path}' not found."})
