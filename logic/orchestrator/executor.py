@@ -495,19 +495,51 @@ class TaskExecutor:
             action_type = action.get("action_type", "")
             params = action.get("parameters", {})
 
-            # Informational / non-file actions pass immediately
+            # Informational / non-file actions
             if action_type in ("chat_response", "read_file", "list_project_files"):
-                task.status = TaskStatus.PASSED
-                return TaskExecutionResult(
-                    task_id=task.id,
-                    success=True,
-                    status=TaskStatus.PASSED,
-                    attempts=task.attempts,
-                    modified_files=[],
-                    diff=None,
-                    diagnostics=[],
-                    elapsed_sec=round(time.time() - t0, 2),
+                is_validation_step = (
+                    any(w in task.id for w in ("validate", "verification", "integration"))
+                    or any(w in task.description.lower() for w in ("validate project", "verify integration", "integration verification"))
                 )
+                if task.target_files and not params.get("content") and not is_validation_step:
+                    diag = f"Task expected code modification for {task.target_files}, but model returned '{action_type}' without file content."
+                    diagnostics_log.append(diag)
+                    if attempt <= max_repairs:
+                        conversation.append({"role": "assistant", "content": raw_response})
+                        conversation.append({
+                            "role": "user",
+                            "content": (
+                                f"Validation Error: {diag} You must emit an action modifying the target file: "
+                                f'{{"action_type": "create_or_update_script", "parameters": {{"file_path": "{task.target_files[0]}", "content": "<script code>"}}}}'
+                            ),
+                        })
+                        continue
+                    else:
+                        task.status = TaskStatus.FAILED
+                        task.diagnostics.append(diag)
+                        return TaskExecutionResult(
+                            task_id=task.id,
+                            success=False,
+                            status=TaskStatus.FAILED,
+                            attempts=task.attempts,
+                            modified_files=[],
+                            diff=None,
+                            diagnostics=diagnostics_log,
+                            error=diag,
+                            elapsed_sec=time.time() - t0,
+                        )
+                else:
+                    task.status = TaskStatus.PASSED
+                    return TaskExecutionResult(
+                        task_id=task.id,
+                        success=True,
+                        status=TaskStatus.PASSED,
+                        attempts=task.attempts,
+                        modified_files=[],
+                        diff=None,
+                        diagnostics=[],
+                        elapsed_sec=round(time.time() - t0, 2),
+                    )
 
             # File modifications: validate paths and schema
             rel_file = params.get("file_path") or (task.target_files[0] if task.target_files else "")

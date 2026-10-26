@@ -1,0 +1,52 @@
+{
+  "timestamp": 1793003274.4332485,
+  "date": "2026-10-26 13:57:54",
+  "hardware": "NVIDIA DGX Spark / GB10",
+  "godot_version": "v4.7.2.stable.official.ed1daf0bf",
+  "base_model": "Qwen/Qwen2.5-Coder-7B-Instruct",
+  "adapter_path": "/home/piet/Documents/dataset/godot-agent-lora/final_adapter",
+  "configurations": [
+    {
+      "model_name": "Base Model (Qwen2.5-Coder-7B-Instruct)",
+      "total_attempts": 10,
+      "structured_action_valid_count": 6,
+      "structured_action_rate_pct": 60.0,
+      "repetition_or_truncated_count": 0,
+      "repetition_rate_pct": 0.0,
+      "first_pass_compile_count": 4,
+      "first_pass_compile_rate_pct": 40.0,
+      "final_success_count": 6,
+      "final_success_rate_pct": 60.0,
+      "avg_latency_sec": 30.84,
+      "avg_tokens": 369.8
+    },
+    {
+      "model_name": "LoRA v1 (Standard Decoding)",
+      "total_attempts": 10,
+      "structured_action_valid_count": 5,
+      "structured_action_rate_pct": 50.0,
+      "repetition_or_truncated_count": 0,
+      "repetition_rate_pct": 0.0,
+      "first_pass_compile_count": 4,
+      "first_pass_compile_rate_pct": 40.0,
+      "final_success_count": 2,
+      "final_success_rate_pct": 20.0,
+      "avg_latency_sec": 37.71,
+      "avg_tokens": 420.5
+    },
+    {
+      "model_name": "LoRA v1 (Safeguarded Decoding, rep_penalty=1.20)",
+      "total_attempts": 10,
+      "structured_action_valid_count": 4,
+      "structured_action_rate_pct": 40.0,
+      "repetition_or_truncated_count": 1,
+      "repetition_rate_pct": 10.0,
+      "first_pass_compile_count": 0,
+      "first_pass_compile_rate_pct": 0.0,
+      "final_success_count": 0,
+      "final_success_rate_pct": 0.0,
+      "avg_latency_sec": 75.3,
+      "avg_tokens": 850.3
+    }
+  ]
+}
